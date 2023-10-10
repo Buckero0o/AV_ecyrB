@@ -12,3 +12,10 @@ for _, itemData in ipairs(items) do
 		TriggerClientEvent("armor:addArmor", source, armorVal)
 	end)
 end
+
+RegisterNetEvent('removeItem')
+AddEventHandler('removeItem', function(item, count)
+	local source = source
+	local xPlayer = ESX.GetPlayerFromId(source)
+	xPlayer.removeInventoryItem(item, count)
+end)
