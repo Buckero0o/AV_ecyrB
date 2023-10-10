@@ -26,7 +26,7 @@ AddEventHandler('armor:addArmor', function(amount)
 				mugshotNotify(Config.Translation.Title, Config.Translation.Undertitle, Config.Translation.Text50) 
 			end
 		else
-			mugshotNotify(Config.Translation.Title, Config.TranslationUndertitleNoItem, Config.Translation.TextNoItem)
+			mugshotNotify(Config.Translation.Title, Config.Translation.UndertitleNoItem, Config.Translation.TextNoItem)
 		end
 	end, item, count)
 end)
