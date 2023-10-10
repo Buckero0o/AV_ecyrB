@@ -1,19 +1,14 @@
-ESX = nil
+ESX = exports["es_extended"]:getSharedObject()
 
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+local items = {
+	{'bulletproof', 100},
+	{'bulletproof50', 50},
+}
 
-ESX.RegisterUsableItem('bulletproof', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('bulletproof', 1)
-	TriggerClientEvent('armor:addArmor', source, 100)
-	xPlayer.showNotification(_U('used_bulletproof'))
-end)
-
-ESX.RegisterUsableItem('bulletproof50', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('bulletproof50', 1)
-	TriggerClientEvent('armor:addArmor', source, 50)
-	xPlayer.showNotification(_U('used_bulletproof'))
-end)
-
--- Credit to helping me improve this script goes to DrAceMisanthrope. Thanks for the help!
+for _, itemData in ipairs(items) do
+	local itemName = itemData[1]
+	local armorVal = itemData[2]
+	ESX.RegisterUsableItem(itemName, function(source)
+		TriggerClientEvent("armor:addArmor", source, armorVal)
+	end)
+end
