@@ -1,19 +1,44 @@
-ESX = nil
+ESX = exports["es_extended"]:getSharedObject()
 
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+local items = {
+	{'bulletproof', 100},
+	{'bulletproof50', 50},
+}
 
-ESX.RegisterUsableItem('bulletproof', function(source)
+for _, itemData in ipairs(items) do
+	local itemName = itemData[1]
+	local armorVal = itemData[2]
+	ESX.RegisterUsableItem(itemName, function(source)
+		TriggerClientEvent("armor:addArmor", source, armorVal)
+	end)
+end
+
+RegisterNetEvent('removeItem')
+AddEventHandler('removeItem', function(item, count)
+	local source = source
 	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('bulletproof', 1)
-	TriggerClientEvent('armor:addArmor', source, 100)
-	xPlayer.showNotification(_U('used_bulletproof'))
+	xPlayer.removeInventoryItem(item, count)
 end)
 
-ESX.RegisterUsableItem('bulletproof50', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('bulletproof50', 1)
-	TriggerClientEvent('armor:addArmor', source, 50)
-	xPlayer.showNotification(_U('used_bulletproof'))
-end)
+--[[
+very handy cb, can be utilized in other scripts aswell
+item = item from db as @STRING
+count = itemcount you need to have to return cb(true) as @INT
+]]
 
--- Credit to helping me improve this script goes to DrAceMisanthrope. Thanks for the help!
+ESX.RegisterServerCallback('hasItem', function(source, cb, item, count)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if xPlayer then
+		local item = item
+		local count = count
+		local playerInventory = xPlayer.getInventoryItem(item)
+		local playerInventoryCount = playerInventory.count
+		if playerInventoryCount >= count then
+			cb(true)
+		else
+			cb(false)
+		end
+	else
+		cb(false)
+	end
+end)
