@@ -19,3 +19,20 @@ AddEventHandler('removeItem', function(item, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	xPlayer.removeInventoryItem(item, count)
 end)
+
+ESX.RegisterServerCallback('hasItem', function(source, cb, item, count)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if xPlayer then
+		local item = item
+		local count = count
+		local playerInventory = xPlayer.getInventoryItem(item)
+		local playerInventoryCount = playerInventory.count
+		if playerInventoryCount >= count then
+			cb(true)
+		else
+			cb(false)
+		end
+	else
+		cb(false)
+	end
+end)
