@@ -9,6 +9,13 @@ end
 RegisterNetEvent('armor:addArmor')
 AddEventHandler('armor:addArmor', function(amount)
 	ESX.TriggerServerCallback('hasItem', function(hasItem, count)
+		if amount == 100 then
+			item = 'bulletproof'
+			count = 1
+		else
+			item = 'bulletproof50'
+			count = 1
+		end
 		if hasItem then
 			AddArmourToPed(GetPlayerPed(-1), amount)
 			if amount == 100 then
@@ -23,4 +30,3 @@ AddEventHandler('armor:addArmor', function(amount)
 		end
 	end, item, count)
 end)
-
